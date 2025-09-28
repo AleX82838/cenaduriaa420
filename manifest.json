@@ -1,0 +1,20 @@
+{
+  "name": "Cenaduría 4:20",
+  "short_name": "Cenaduría",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#0f0",
+  "icons": [
+    {
+      "src": "logotipo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logotipo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
