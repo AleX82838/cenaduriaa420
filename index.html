@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cenaduría 4:20</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
 
@@ -26,7 +29,6 @@
     <nav>
       <a href="#inicio">Inicio</a>
       <a href="#menu">Menú</a>
-      <a href="#carrito">Carrito <span id="contador-carrito">0</span></a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
@@ -41,27 +43,38 @@
   <!-- ====== SECCIÓN MENÚ ====== -->
   <section id="menu">
     <h2 class="title">✨ Nuestro Menú ✨</h2>
+
+    <!-- Buscador y filtros -->
+    <input type="text" id="busqueda" placeholder="🔎 Buscar platillo..." onkeyup="buscarProducto()" class="buscador">
+
+    <div class="filtros">
+      <button class="btn filtro" onclick="filtrarCategoria('all')">Todos</button>
+      <button class="btn filtro" onclick="filtrarCategoria('torta')">Tortas</button>
+      <button class="btn filtro" onclick="filtrarCategoria('tlayuda')">Tlayudas</button>
+      <button class="btn filtro" onclick="filtrarCategoria('tostada')">Tostadas</button>
+    </div>
+
     <div class="menu">
-      <div class="card">
+      <div class="card torta">
         <img src="torta.png" alt="Torta Especial">
         <h3>Torta Especial</h3>
         <p>$50 MXN</p>
-        <input type="number" min="1" value="1" id="cantidad-Torta Especial" class="cantidad">
-        <button class="btn" onclick="agregarAlCarritoMultiple('Torta Especial', 50)">Agregar</button>
+        <input type="number" min="1" value="1" id="cantidad-torta" class="cantidad">
+        <button class="btn" onclick="agregarAlCarrito('Torta Especial', 50, 'cantidad-torta')">Agregar</button>
       </div>
-      <div class="card">
+      <div class="card tlayuda">
         <img src="tlayuda.png" alt="Tlayuda">
         <h3>Tlayuda</h3>
         <p>$70 MXN</p>
-        <input type="number" min="1" value="1" id="cantidad-Tlayuda" class="cantidad">
-        <button class="btn" onclick="agregarAlCarritoMultiple('Tlayuda', 70)">Agregar</button>
+        <input type="number" min="1" value="1" id="cantidad-tlayuda" class="cantidad">
+        <button class="btn" onclick="agregarAlCarrito('Tlayuda', 70, 'cantidad-tlayuda')">Agregar</button>
       </div>
-      <div class="card">
+      <div class="card tostada">
         <img src="tostada.png" alt="Tostada">
         <h3>Tostada</h3>
         <p>$30 MXN</p>
-        <input type="number" min="1" value="1" id="cantidad-Tostada" class="cantidad">
-        <button class="btn" onclick="agregarAlCarritoMultiple('Tostada', 30)">Agregar</button>
+        <input type="number" min="1" value="1" id="cantidad-tostada" class="cantidad">
+        <button class="btn" onclick="agregarAlCarrito('Tostada', 30, 'cantidad-tostada')">Agregar</button>
       </div>
     </div>
   </section>
@@ -69,22 +82,19 @@
   <!-- Popup de notificación -->
   <div id="popup" class="popup"></div>
 
-  <!-- ====== SECCIÓN CARRITO ====== -->
-  <section id="carrito">
-    <h2 class="title">🛒 Tu Carrito</h2>
-    <ul id="lista-carrito"></ul>
-    <p id="total">Total: $0 MXN</p>
-    <button class="btn" onclick="mostrarResumen()">Ver Resumen</button>
-    <button class="btn whatsapp" onclick="enviarWhatsApp()">Enviar Pedido por WhatsApp 📲</button>
-  </section>
+  <!-- ====== CARRITO FLOTANTE ====== -->
+  <div id="carrito-flotante" onclick="abrirCarrito()">
+    🛒 <span id="contador-carrito">0</span>
+  </div>
 
-  <!-- ====== MODAL RESUMEN ====== -->
-  <div id="modal" class="modal">
+  <!-- ====== MODAL CARRITO ====== -->
+  <div id="modal-carrito" class="modal">
     <div class="modal-content">
-      <span class="cerrar" onclick="cerrarModal()">&times;</span>
-      <h2>Resumen de Pedido</h2>
-      <div id="resumen"></div>
-      <button class="btn whatsapp" onclick="enviarWhatsApp()">Confirmar y Enviar</button>
+      <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
+      <h2>🛒 Tu Carrito</h2>
+      <ul id="lista-carrito"></ul>
+      <p id="total">Total: $0 MXN</p>
+      <button class="btn whatsapp" onclick="enviarWhatsApp()">Enviar Pedido por WhatsApp 📲</button>
     </div>
   </div>
 
@@ -93,6 +103,8 @@
     <h2 class="title">📞 Contáctanos</h2>
     <p>📍 Juchitán de Zaragoza, Oaxaca</p>
     <p>📞 Tel: +52 5654595169</p>
+    <button class="btn" onclick="obtenerUbicacion()">📍 Compartir Ubicación</button>
+    <p id="ubicacion"></p>
   </section>
 
   <!-- ====== PIE DE PÁGINA ====== -->
@@ -101,9 +113,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 
-  <!-- Registrar Service Worker -->
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("service-worker.js")
