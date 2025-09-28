@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cenaduría 4:20</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="c:\Users\juega\Downloads\logotipo.png" href="c:\Users\juega\Downloads\logotipo.png">
+</head>
+<body>
+
+  <!-- ====== ENCABEZADO ====== -->
+  <header>
+    <div class="logo-container">
+      <img src="c:\Users\juega\Downloads\logotipo.png" alt="Logotipo Cenaduría 4:20" class="logo">
+      <h1>Cenaduría 4:20</h1>
+    </div>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#menu">Menú</a>
+      <a href="#carrito">Carrito <span id="contador-carrito">0</span></a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- ====== SECCIÓN INICIO ====== -->
+  <section id="inicio" class="hero">
+    <h2>Bienvenidos a la mejor cenaduría de la ciudad 🌮</h2>
+    <p>Disfruta nuestras tortas, tlayudas y tostadas, hechas con amor y sazón.</p>
+    <a href="#menu" class="btn">Ver Menú</a>
+  </section>
+
+  <!-- ====== SECCIÓN MENÚ ====== -->
+  
+  <section id="menu">
+  <h2 class="title">✨ Nuestro Menú ✨</h2>
+  <div class="menu">
+    <div class="card">
+      <img src="c:\Users\juega\Downloads\torta.png" alt="Torta Especial">
+      <h3>Torta Especial</h3>
+      <p>$50 MXN</p>
+      <input type="number" min="1" value="1" id="cantidad-Torta Especial" class="cantidad">
+      <button class="btn" onclick="agregarAlCarritoMultiple('Torta Especial', 50)">Agregar</button>
+    </div>
+    <div class="card">
+      <img src="c:\Users\juega\Downloads\tlayuda.png" alt="Tlayuda">
+      <h3>Tlayuda</h3>
+      <p>$70 MXN</p>
+      <input type="number" min="1" value="1" id="cantidad-Tlayuda" class="cantidad">
+      <button class="btn" onclick="agregarAlCarritoMultiple('Tlayuda', 70)">Agregar</button>
+    </div>
+    <div class="card">
+      <img src="c:\Users\juega\Downloads\tostada.png" alt="Tostada">
+      <h3>Tostada</h3>
+      <p>$30 MXN</p>
+      <input type="number" min="1" value="1" id="cantidad-Tostada" class="cantidad">
+      <button class="btn" onclick="agregarAlCarritoMultiple('Tostada', 30)">Agregar</button>
+    </div>
+  </div>
+</section>
+
+<!-- Popup de notificación -->
+<div id="popup" class="popup"></div>
+
+
+  <!-- ====== SECCIÓN CARRITO ====== -->
+  <section id="carrito">
+    <h2 class="title">🛒 Tu Carrito</h2>
+    <ul id="lista-carrito"></ul>
+    <p id="total">Total: $0 MXN</p>
+    <button class="btn" onclick="mostrarResumen()">Ver Resumen</button>
+    <button class="btn whatsapp" onclick="enviarWhatsApp()">Enviar Pedido por WhatsApp 📲</button>
+  </section>
+
+  <!-- ====== MODAL RESUMEN ====== -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="cerrar" onclick="cerrarModal()">&times;</span>
+      <h2>Resumen de Pedido</h2>
+      <div id="resumen"></div>
+      <button class="btn whatsapp" onclick="enviarWhatsApp()">Confirmar y Enviar</button>
+    </div>
+  </div>
+
+  <!-- ====== SECCIÓN CONTACTO ====== -->
+  <section id="contacto">
+    <h2 class="title">📞 Contáctanos</h2>
+    <p>📍 Juchitán de Zaragoza, Oaxaca</p>
+    <p>📞 Tel: +52 5654595169</p>
+  </section>
+
+  <!-- ====== PIE DE PÁGINA ====== -->
+  <footer>
+    &copy; 2025 Cenaduría 4:20 | Todos los derechos reservados
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
