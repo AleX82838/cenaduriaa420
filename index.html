@@ -8,8 +8,12 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
 
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f0">
+
   <!-- Favicon -->
-  <link rel="icon" type="logotipo.png" href="c:\Users\juega\Downloads\logotipo.png">
+  <link rel="icon" type="logotipo.png" href="logotipo.png">
 </head>
 <body>
 
@@ -35,37 +39,35 @@
   </section>
 
   <!-- ====== SECCIÓN MENÚ ====== -->
-  
   <section id="menu">
-  <h2 class="title">✨ Nuestro Menú ✨</h2>
-  <div class="menu">
-    <div class="card">
-      <img src="torta.png" alt="Torta Especial">
-      <h3>Torta Especial</h3>
-      <p>$50 MXN</p>
-      <input type="number" min="1" value="1" id="cantidad-Torta Especial" class="cantidad">
-      <button class="btn" onclick="agregarAlCarritoMultiple('Torta Especial', 50)">Agregar</button>
+    <h2 class="title">✨ Nuestro Menú ✨</h2>
+    <div class="menu">
+      <div class="card">
+        <img src="torta.png" alt="Torta Especial">
+        <h3>Torta Especial</h3>
+        <p>$50 MXN</p>
+        <input type="number" min="1" value="1" id="cantidad-Torta Especial" class="cantidad">
+        <button class="btn" onclick="agregarAlCarritoMultiple('Torta Especial', 50)">Agregar</button>
+      </div>
+      <div class="card">
+        <img src="tlayuda.png" alt="Tlayuda">
+        <h3>Tlayuda</h3>
+        <p>$70 MXN</p>
+        <input type="number" min="1" value="1" id="cantidad-Tlayuda" class="cantidad">
+        <button class="btn" onclick="agregarAlCarritoMultiple('Tlayuda', 70)">Agregar</button>
+      </div>
+      <div class="card">
+        <img src="tostada.png" alt="Tostada">
+        <h3>Tostada</h3>
+        <p>$30 MXN</p>
+        <input type="number" min="1" value="1" id="cantidad-Tostada" class="cantidad">
+        <button class="btn" onclick="agregarAlCarritoMultiple('Tostada', 30)">Agregar</button>
+      </div>
     </div>
-    <div class="card">
-      <img src="tlayuda.png" alt="Tlayuda">
-      <h3>Tlayuda</h3>
-      <p>$70 MXN</p>
-      <input type="number" min="1" value="1" id="cantidad-Tlayuda" class="cantidad">
-      <button class="btn" onclick="agregarAlCarritoMultiple('Tlayuda', 70)">Agregar</button>
-    </div>
-    <div class="card">
-      <img src="tostada.png" alt="Tostada">
-      <h3>Tostada</h3>
-      <p>$30 MXN</p>
-      <input type="number" min="1" value="1" id="cantidad-Tostada" class="cantidad">
-      <button class="btn" onclick="agregarAlCarritoMultiple('Tostada', 30)">Agregar</button>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- Popup de notificación -->
-<div id="popup" class="popup"></div>
-
+  <!-- Popup de notificación -->
+  <div id="popup" class="popup"></div>
 
   <!-- ====== SECCIÓN CARRITO ====== -->
   <section id="carrito">
@@ -100,6 +102,14 @@
 
   <!-- Scripts -->
   <script src="script.js"></script>
+
+  <!-- Registrar Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("✅ Service Worker registrado"))
+        .catch(err => console.log("❌ Error en Service Worker:", err));
+    }
+  </script>
 </body>
 </html>
-
