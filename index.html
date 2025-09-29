@@ -1,129 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cenaduría 4:20</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cenaduría 4:20 — Futurista</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <!-- Estilos -->
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- Manifest PWA -->
+  <!-- Manifest -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0f0">
+  <meta name="theme-color" content="#00ff6a">
 
-  <!-- Favicon -->
-  <link rel="icon" type="logotipo.png" href="logotipo.png">
-
-  <!-- Soporte para iOS -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Cenaduría 4:20">
-
-<!-- Icono para iOS -->
-<link rel="apple-touch-icon" href="logotipo.png">
-
+  <link rel="icon" href="logotipo.png" type="image/png">
 </head>
-<body>
+<body data-theme="neon">
 
-  <!-- ====== ENCABEZADO ====== -->
-  <header>
-    <div class="logo-container">
-      <img src="logotipo.png" alt="Logotipo Cenaduría 4:20" class="logo">
-      <h1>Cenaduría 4:20</h1>
+  <!-- Canvas partículas (fondo) -->
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <!-- Cursor neon (opcional) -->
+  <div id="cursor" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand-block">
+        <img src="logotipo.png" alt="Logo" class="logo">
+        <h1 class="brand">Cenaduría 4:20</h1>
+      </div>
+
+      <!-- Reloj fijo + mensaje dinámico -->
+      <div class="clock-block" aria-live="polite">
+        <div id="clock" class="clock">--:--:--</div>
+        <div id="greeting" class="greeting">Bienvenido</div>
+      </div>
+
+      <div class="controls-block">
+        <input id="search" placeholder="🔎 Buscar platillo..." />
+        <select id="theme-select" title="Tema" aria-label="Tema">
+          <option value="neon">🌌 Neón</option>
+          <option value="dark">🌑 Oscuro</option>
+          <option value="light">🌞 Claro</option>
+        </select>
+        <button id="btn-locate" class="mini" title="Compartir ubicación">📍</button>
+        <button id="btn-toggle-cart" class="mini" title="Mostrar/ocultar carrito">🛒</button>
+        <div id="cart-floating" class="cart-floating" title="Abrir carrito">🛒 <span id="cart-count">0</span></div>
+      </div>
     </div>
-    <nav>
+
+    <nav class="nav">
       <a href="#inicio">Inicio</a>
       <a href="#menu">Menú</a>
+      <a href="#combos">Combos</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
 
-  <!-- ====== SECCIÓN INICIO ====== -->
+  <!-- Hero -->
   <section id="inicio" class="hero">
-    <h2>Bienvenidos a la mejor cenaduría de la ciudad 🌮</h2>
-    <p>Disfruta nuestras tortas, tlayudas y tostadas, hechas con amor y sazón.</p>
-    <a href="#menu" class="btn">Ver Menú</a>
+    <h2>Bienvenidos a la Cenaduría 4:20 🌮</h2>
+    <p>Sabores auténticos con un toque futurista — preparado con amor. 😋✨</p>
+    <a href="#menu" class="btn primary">Ver Menú</a>
   </section>
 
-  <!-- ====== SECCIÓN MENÚ ====== -->
-  <section id="menu">
-    <h2 class="title">✨ Nuestro Menú ✨</h2>
+  <!-- Menú dinámico -->
+  <main>
+    <section id="menu" class="section">
+      <h2>🍽️ Nuestro Menú</h2>
+      <div id="menu-list" class="menu-grid" aria-live="polite"></div>
+    </section>
 
-    <!-- Buscador y filtros -->
-    <input type="text" id="busqueda" placeholder="🔎 Buscar platillo..." onkeyup="buscarProducto()" class="buscador">
+    <section id="combos" class="section">
+      <h2>🔥 Combos</h2>
+      <div id="combos-list" class="combo-grid"></div>
+    </section>
 
-    <div class="filtros">
-      <button class="btn filtro" onclick="filtrarCategoria('all')">Todos</button>
-      <button class="btn filtro" onclick="filtrarCategoria('torta')">Tortas</button>
-      <button class="btn filtro" onclick="filtrarCategoria('tlayuda')">Tlayudas</button>
-      <button class="btn filtro" onclick="filtrarCategoria('tostada')">Tostadas</button>
+    <section class="section extras">
+      <div class="column">
+        <h3>⭐ Favoritos</h3>
+        <ul id="favorites-list"></ul>
+      </div>
+      <div class="column">
+        <h3>🕒 Historial</h3>
+        <ul id="history-list"></ul>
+      </div>
+      <div class="column">
+        <h3>💬 Reseñas</h3>
+        <form id="review-form">
+          <input id="review-name" placeholder="Tu nombre" required />
+          <textarea id="review-text" placeholder="Escribe una reseña..." required></textarea>
+          <button type="submit" class="btn">Enviar reseña ✉️</button>
+        </form>
+        <ul id="reviews-list"></ul>
+      </div>
+    </section>
+
+    <section id="contacto" class="section">
+      <h2>📞 Contáctanos</h2>
+      <p>📍 Juchitán de Zaragoza, Oaxaca</p>
+      <p>📞 +52 5654595169</p>
+    </section>
+  </main>
+
+  <!-- Carrito (draggable) -->
+  <aside id="cart" class="cart" role="dialog" aria-label="Carrito">
+    <div class="cart-header">
+      <h3>🛒 Tu Pedido</h3>
+      <div class="cart-actions">
+        <button id="cart-empty" class="mini" title="Vaciar carrito">🗑️</button>
+        <button id="cart-close" class="mini" title="Cerrar carrito">✖️</button>
+      </div>
     </div>
 
-    <div class="menu">
-      <div class="card torta">
-        <img src="torta.png" alt="Torta Especial">
-        <h3>Torta Especial</h3>
-        <p>$50 MXN</p>
-        <input type="number" min="1" value="1" id="cantidad-torta" class="cantidad">
-        <button class="btn" onclick="agregarAlCarrito('Torta Especial', 50, 'cantidad-torta')">Agregar</button>
+    <ul id="cart-items" class="cart-items"></ul>
+
+    <div class="cart-footer">
+      <div class="cart-summary">
+        <div id="cart-eta" class="eta">⏱ Estimado: 0 min</div>
+        <div id="cart-total">Total: $0 MXN</div>
       </div>
-      <div class="card tlayuda">
-        <img src="tlayuda.png" alt="Tlayuda">
-        <h3>Tlayuda</h3>
-        <p>$70 MXN</p>
-        <input type="number" min="1" value="1" id="cantidad-tlayuda" class="cantidad">
-        <button class="btn" onclick="agregarAlCarrito('Tlayuda', 70, 'cantidad-tlayuda')">Agregar</button>
-      </div>
-      <div class="card tostada">
-        <img src="tostada.png" alt="Tostada">
-        <h3>Tostada</h3>
-        <p>$30 MXN</p>
-        <input type="number" min="1" value="1" id="cantidad-tostada" class="cantidad">
-        <button class="btn" onclick="agregarAlCarrito('Tostada', 30, 'cantidad-tostada')">Agregar</button>
+
+      <div class="cart-controls">
+        <input id="note" placeholder="📝 Nota (sin cebolla, extra salsa...)" />
+        <div class="cart-buttons">
+          <button id="generate-qr" class="btn">🔳 QR</button>
+          <button id="checkout" class="btn whatsapp">📲 WhatsApp</button>
+        </div>
       </div>
     </div>
-  </section>
+  </aside>
 
-  <!-- Popup de notificación -->
-  <div id="popup" class="popup"></div>
-
-  <!-- ====== CARRITO FLOTANTE ====== -->
-  <div id="carrito-flotante" onclick="abrirCarrito()">
-    🛒 <span id="contador-carrito">0</span>
-  </div>
-
-  <!-- ====== MODAL CARRITO ====== -->
-  <div id="modal-carrito" class="modal">
-    <div class="modal-content">
-      <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
-      <h2>🛒 Tu Carrito</h2>
-      <ul id="lista-carrito"></ul>
-      <p id="total">Total: $0 MXN</p>
-      <button class="btn whatsapp" onclick="enviarWhatsApp()">Enviar Pedido por WhatsApp 📲</button>
-    </div>
-  </div>
-
-  <!-- ====== SECCIÓN CONTACTO ====== -->
-  <section id="contacto">
-    <h2 class="title">📞 Contáctanos</h2>
-    <p>📍 Juchitán de Zaragoza, Oaxaca</p>
-    <p>📞 Tel: +52 5654595169</p>
-    <button class="btn" onclick="obtenerUbicacion()">📍 Compartir Ubicación</button>
-    <p id="ubicacion"></p>
-  </section>
-
-  <!-- ====== PIE DE PÁGINA ====== -->
-  <footer>
-    &copy; 2025 Cenaduría 4:20 | Todos los derechos reservados
-  </footer>
+  <!-- Popup -->
+  <div id="popup" class="popup" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="./script.js" defer></script>
-
+  <script src="particles.js" defer></script>
+  <script src="script.js" defer></script>
 
   <script>
     if ("serviceWorker" in navigator) {
@@ -134,5 +150,3 @@
   </script>
 </body>
 </html>
-
-
