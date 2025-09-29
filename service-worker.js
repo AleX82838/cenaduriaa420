@@ -1,21 +1,16 @@
-const CACHE_NAME = "cenaduria-v2";
+const CACHE_NAME = 'cenaduria-cache-v1';
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/script.js",
-  "/logotipo.png"
+  '/', '/index.html', '/style.css', '/script.js', '/particles.js', '/logotipo.png'
 ];
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-  );
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
 });
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
-  );
+self.addEventListener('activate', (e) => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => { if(k !== CACHE_NAME) return caches.delete(k); }))));
 });
 
+self.addEventListener('fetch', (e) => {
+  e.respondWith(caches.match(e.request).then(resp => resp || fetch(e.request)));
+});
